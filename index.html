@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprende a Escribir - Juego Educativo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>¡Aprende a Escribir!</h1>
+            <div class="puntos">
+                <span>Puntos: </span>
+                <span id="puntos">0</span>
+            </div>
+        </header>
+
+        <main>
+            <div class="modos-juego">
+                <div class="modo-contenedor">
+                    <button id="tutorial" class="modo-btn">🧑‍🏫 Tutorial</button>
+                    <div class="modo-desc">Aprende cómo usar el juego paso a paso.</div>
+                </div>
+                <div class="modo-contenedor">
+                    <button id="principiante" class="modo-btn">🐣 Principiante</button>
+                    <div class="modo-desc">Frases fáciles para empezar a practicar.</div>
+                </div>
+                <div class="modo-contenedor">
+                    <button id="avanzado" class="modo-btn">🚀 Avanzado</button>
+                    <div class="modo-desc">Desafía tu velocidad y precisión con frases más largas.</div>
+                </div>
+                <div class="modo-contenedor">
+                    <button id="experto" class="modo-btn">🧠 Experto</button>
+                    <div class="modo-desc">¡Pon a prueba tus habilidades con frases difíciles!</div>
+                </div>
+                <div class="modo-contenedor">
+                    <button id="carrera" class="modo-btn">⏱️ Carrera</button>
+                    <div class="modo-desc">Transcribe un texto en 3 minutos y compite contra el tiempo.</div>
+                </div>
+                <div class="modo-contenedor">
+                    <button id="tienda" class="modo-btn">🛒 Tienda</button>
+                    <div class="modo-desc">Canjea tus puntos por mejoras y sorpresas.</div>
+                </div>
+            </div>
+
+            <div id="area-juego" class="oculto">
+                <div id="texto-objetivo"></div>
+                <textarea id="texto-usuario" placeholder="Escribe aquí..."></textarea>
+                <div id="teclado-virtual-libre"></div>
+                <div id="tiempo" class="oculto">Tiempo: <span id="contador">180</span>s</div>
+            </div>
+        </main>
+
+        <!-- Modal Tutorial -->
+        <div id="modal-tutorial" class="modal">
+            <div class="modal-contenido">
+                <div id="tutorial-paso-1" class="tutorial-paso">
+                    <div class="sticker-tutorial-modal"></div>
+                    <h2>¡Bienvenido al Tutorial!</h2>
+                    <p>Aquí aprenderás a escribir con el teclado de manera divertida.</p>
+                    <button class="btn-tutorial-siguiente">Siguiente</button>
+                </div>
+                <div id="tutorial-paso-2" class="tutorial-paso oculto">
+                    <div class="sticker-tutorial-modal"></div>
+                    <h2>Posición de los dedos</h2>
+                    <div id="teclado-posicion-dedos" style="margin-bottom: 10px;"></div>
+                    <p>Coloca tus dedos en la posición correcta sobre el teclado. ¡Así escribirás más rápido y sin mirar!</p>
+                    <button class="btn-tutorial-siguiente" disabled>Siguiente</button>
+                </div>
+                <div id="tutorial-paso-3" class="tutorial-paso oculto">
+                    <div class="sticker-tutorial-modal"></div>
+                    <h2>Reconociendo el teclado</h2>
+                    <p>Este es el teclado virtual. Las teclas se iluminarán cuando las presiones.</p>
+                    <div id="teclado-virtual"></div>
+                    <button class="btn-tutorial-siguiente">Siguiente</button>
+                </div>
+                <div id="tutorial-paso-4" class="tutorial-paso oculto">
+                    <div class="sticker-tutorial-modal"></div>
+                    <h2>¡Practiquemos!</h2>
+                    <p>Presiona la tecla que se ilumina en el teclado virtual.</p>
+                    <div id="teclado-virtual-practica"></div>
+                    <div id="feedback-tutorial"></div>
+                    <button class="btn-tutorial-siguiente" disabled>Siguiente</button>
+                </div>
+                <div id="tutorial-paso-5" class="tutorial-paso oculto">
+                    <div class="sticker-tutorial-modal"></div>
+                    <h2>Práctica libre</h2>
+                    <p>Escribe la frase <b>La computadora es divertida</b> usando el teclado físico y observa cómo se iluminan las teclas.</p>
+                    <div id="teclado-virtual-libre"></div>
+                    <input id="input-tutorial-libre" type="text" maxlength="27" style="font-size:1.2em; margin:10px 0; text-align:center;" />
+                    <div id="feedback-tutorial-libre"></div>
+                    <button class="btn-tutorial-siguiente" disabled>Finalizar</button>
+                </div>
+                <div id="tutorial-paso-6" class="tutorial-paso oculto">
+                    <div class="sticker-tutorial-modal"></div>
+                    <h2>¡Listo!</h2>
+                    <p>¡Ya sabes cómo usar el teclado! Ahora puedes jugar y ganar puntos.</p>
+                    <div style="display:flex; gap:20px; justify-content:center;">
+                        <button id="cerrar-tutorial">🚀 ¡Empezar a jugar!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Tienda -->
+        <div id="modal-tienda" class="modal">
+            <div class="modal-contenido">
+                <h2>Tienda de Mejoras</h2>
+                <div class="items-tienda">
+                    <div class="item">
+                        <h3>Modo Oscuro</h3>
+                        <p>100 puntos</p>
+                        <button class="comprar" data-item="oscuro">Comprar</button>
+                    </div>
+                    <div class="item">
+                        <h3>Modo Arcoiris</h3>
+                        <p>150 puntos</p>
+                        <button class="comprar" data-item="arcoiris">Comprar</button>
+                    </div>
+                    <div class="item">
+                        <h3>Modo Velocidad</h3>
+                        <p>200 puntos</p>
+                        <button class="comprar" data-item="velocidad">Comprar</button>
+                    </div>
+                    <div class="item">
+                        <h3>Puntos Dobles</h3>
+                        <p>300 puntos</p>
+                        <button class="comprar" data-item="dobles">Comprar</button>
+                    </div>
+                    <div class="item">
+                        <h3>Fondos Personalizados</h3>
+                        <p>120 puntos</p>
+                        <button class="comprar" data-item="fondos">Comprar</button>
+                    </div>
+                    <div class="item">
+                        <h3>Sonidos Divertidos</h3>
+                        <p>80 puntos</p>
+                        <button class="comprar" data-item="sonidos">Comprar</button>
+                    </div>
+                    <div class="item">
+                        <h3>Avatares</h3>
+                        <p>140 puntos</p>
+                        <button class="comprar" data-item="avatar">Comprar</button>
+                    </div>
+                    <div class="item">
+                        <h3>Temas de Teclado</h3>
+                        <p>110 puntos</p>
+                        <button class="comprar" data-item="teclado">Comprar</button>
+                    </div>
+                    <div class="item">
+                        <h3>Stickers</h3>
+                        <p>90 puntos</p>
+                        <button class="comprar" data-item="stickers">Comprar</button>
+                    </div>
+                    <div class="item">
+                        <h3>Frases Secretas</h3>
+                        <p>130 puntos</p>
+                        <button class="comprar" data-item="secretas">Comprar</button>
+                    </div>
+                    <div class="item">
+                        <h3>Efectos de Texto</h3>
+                        <p>100 puntos</p>
+                        <button class="comprar" data-item="efectos">Comprar</button>
+                    </div>
+                    <div class="item">
+                        <h3>Música de Fondo</h3>
+                        <p>160 puntos</p>
+                        <button class="comprar" data-item="musica">Comprar</button>
+                    </div>
+                    <div class="item">
+                        <h3>Reto Diario</h3>
+                        <p>200 puntos</p>
+                        <button class="comprar" data-item="reto">Comprar</button>
+                    </div>
+                    <div class="item">
+                        <h3>Puntos Triples (1 min)</h3>
+                        <p>250 puntos</p>
+                        <button class="comprar" data-item="triples">Comprar</button>
+                    </div>
+                </div>
+                <button id="cerrar-tienda">Cerrar</button>
+                <button id="probar-sonido" style="margin-top:15px;">Probar sonido</button>
+            </div>
+        </div>
+
+        <!-- Modal Resultado -->
+        <div id="modal-resultado" class="modal">
+            <div class="modal-contenido">
+                <h2 id="titulo-resultado"></h2>
+                <p id="mensaje-resultado"></p>
+                <div id="errores" class="oculto"></div>
+                <div class="botones-resultado">
+                    <button id="intentar-nuevo">Intentar de nuevo</button>
+                    <button id="salir">Salir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
